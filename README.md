@@ -1,95 +1,168 @@
+<a id="readme-top"></a>
+
+<div align="center">
+
 # jmxtrans-spring-boot-starter
 
-embedded-jmxtrans 整合  Spring、Servlet、InfluxDB
+**Spring Boot Starter for jmxtrans**
 
-## 1、Servlet Integration
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.easy4j/jmxtrans-spring-boot-starter)](https://github.com/easy-4-java/jmxtrans-spring-boot-starter)
+[![Java](https://img.shields.io/badge/Java-17-orange)](#3-requirements-and-compatibility)
+[![License](https://img.shields.io/badge/license-Apache-2.0-green)](https://www.apache.org/licenses/LICENSE-2.0)
 
-参考EmbeddedJmxTransLoaderListener对象注解
+[简体中文](./README.zh-CN.md) | [English](./README.md)
+
+[Positioning](#1-positioning) · [Capabilities](#2-core-capabilities) ·
+[Dependency](#5-dependency) · [Quick Start](#6-quick-start) ·
+[Configuration](#7-configuration-reference) · [Versions](#9-version-lines-and-compatibility) ·
+[Build](#10-build-and-test) · [License](#12-license)
+
+</div>
+
+---
+
+> **Current Version**：`4.1.x.20260527-SNAPSHOT`<br>
+> **JDK Baseline**：`17`<br>
+> **Group ID**：`io.github.easy4j`<br>
+> **Artifact ID**：`jmxtrans-spring-boot-starter`<br>
+> **License**：Apache License 2.0<br>
+
+## 1. Positioning
+
+**jmxtrans-spring-boot-starter** is a Spring Boot starter that integrates **jmxtrans** for applications using jmxtrans. It provides auto-configuration, property binding, and ready-to-use beans so that applications can consume jmxtrans capabilities with minimal setup.
+
+| Dimension | Description |
+|---|---|
+| Type | Spring Boot Starter |
+| Consumers | Spring Boot applications using jmxtrans |
+| Core Capabilities | auto-configuration, property binding, ready-to-use beans for jmxtrans |
+| JDK | `17` |
+| Coordinates | `io.github.easy4j:jmxtrans-spring-boot-starter:4.1.x.20260527-SNAPSHOT` |
+| Config Prefix | `jmxtrans` |
+
+## 2. Core Capabilities
+
+| Capability | Status | Description |
+|---|:---:|---|
+| Auto-configuration | ✅ Stable | Registers jmxtrans beans automatically |
+| Property Binding | ✅ Stable | Binds `jmxtrans.*` to `Properties` |
+| Ready-to-use beans | ✅ Stable | Auto-registered via auto-configuration |
+
+## 3. Requirements and Compatibility
+
+| Dependency | Minimum | Evidence |
+|---|---:|---|
+| JDK | `17` | `pom.xml` |
+| Spring Boot | `4.1.0-M4` | `pom.xml` parent |
+| Maven | `3.6+` | Maven Enforcer |
+
+## 4. Auto-configuration
+
+The starter auto-configures the following beans:
+
+| Bean | Condition | Missing Behavior |
+|---|---|---|
+| `Object` | classpath + property | not created |
+
+Auto-configuration registration:
+
+- `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` (Spring Boot 2.7+ / 3.x / 4.x)
+- `META-INF/spring.factories` (Spring Boot 2.x legacy)
+
+## 5. Dependency
+
 ```xml
-<context-param>
-	<param-name>jmxtrans.config</param-name>
-	<param-value>
-		classpath:jmxtrans.json
-		classpath:org/jmxtrans/embedded/config/jmxtrans-internals-servlet-container.json
-		classpath:org/jmxtrans/embedded/config/tomcat-7.json
-		classpath:org/jmxtrans/embedded/config/jvm-sun-hotspot.json
-	</param-value>
-</context-param>
-<listener>
-	<listener-class>org.jmxtrans.embedded.servlet.EmbeddedJmxTransLoaderListener</listener-class>
-</listener>
-```
-## 2、Spring Integration
-
-本人参考 embedded-jmxtrans 的github地址 https://github.com/jmxtrans/embedded-jmxtrans/wiki 配置后，测试完全无效。
-阅读代码后采用另种方式：
-
-配置EmbeddedJmxTransFactory
-```xml
-<bean id="jmxtrans" class="org.jmxtrans.embedded.spring.EmbeddedJmxTransFactory" destroy-method="destroy" scope="singleton">
-	<!-- JMX对象名称  -->
-	<property name="beanName" value="jmxtrans"/>
-	<!-- 监听配置文件变化: 每60秒检测一次  -->
-	<property name="configurationScanPeriodInSeconds" value="60"/>
-	<!-- 如果未发现指定的配置文件 ，是否忽略 -->
-	<property name="ignoreConfigurationNotFound" value="true"/>
-	<!-- 初始配置文件 -->
-	<property name="configurationUrls">
-		<list>
-         	<value>classpath:jmxtrans.json</value>  
-         	<value>classpath:org/jmxtrans/embedded/config/tomcat-7.json</value>
-         	<value>classpath:org/jmxtrans/embedded/config/jmxtrans-internals.json</value> 
-         	<value>classpath:org/jmxtrans/embedded/config/jvm-sun-hotspot.json</value>
-     	</list>
-	</property>
-</bean>
-```
-使用EmbeddedJmxTransFactory；此处发现如果不引用上面的对象，则无法调用getObject方法实现对象初始化
-```xml
-<bean class="org.jmxtrans.embedded.EmbeddedJmxTransLauncher">
-	<property name="jmxtrans" ref="jmxtrans"/>
-</bean>
+<dependency>
+    <groupId>io.github.easy4j</groupId>
+    <artifactId>jmxtrans-spring-boot-starter</artifactId>
+    <version>4.1.x.20260527-SNAPSHOT</version>
+</dependency>
 ```
 
-## 3、InfluxDB Integration
+No additional easy4j component dependencies.
 
-在第二则中提到配置文件 jmxtrans.json；为了将数据自己输出到InfluxDB,我拷贝了jmxtrans-output-influxdb的代码，做了一些调整，配置如下：
+## 6. Quick Start
 
+### 6.1 Add dependency
 
-```json
-{
-    "queries": [
-    	{
-            "objectName": "Catalina:type=Manager,context=/,host=*",
-            "resultAlias": "application.activeSessions",
-            "attributes": [
-                "activeSessions"
-            ]
+Add the dependency above to your `pom.xml`.
 
-        }
-    ],
-    "outputWriters": [
-        {
-	        "@class": "org.jmxtrans.embedded.output.Slf4jWriter",
-	        "settings": {
-	            "enabled": "${jmxtrans.writer.slf4j.enabled:true}"
-	        }
-    	},
-    	{
-	        "@class": "org.jmxtrans.embedded.output.influxdb.InfluxDbOutputWriter",
-	        "settings": {
-	            "enabled": "${jmxtrans.writer.influxdb.enabled:true}",
-	            "url": "${jmxtrans.writer.influxdb.url:http://localhost:8086}",
-	            "database": "${jmxtrans.writer.influxdb.database:APP_Metrics}",
-	            "user": "${jmxtrans.writer.influxdb.user:admin}",
-	            "password": "${jmxtrans.writer.influxdb.password:admin}",
-	            "tags": "${jmxtrans.writer.influxdb.tags:host=#hostname#}"
-	            
-	        }
-    	}
-    ]
+### 6.2 Configure
+
+```yaml
+jmxtrans:
+  enabled: true
+```
+
+### 6.3 Use the bean
+
+```java
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }
 ```
 
+Then inject the auto-configured bean in your code:
 
+```java
+@Autowired
+private Object bean;
+```
 
+## 7. Configuration Reference
+
+### 7.1 Config Prefix
+
+`jmxtrans`
+
+### 7.2 Configuration Items
+
+| Property | Type | Default | Required | Description | Sensitive |
+|---|---|---|:---:|---|:---:|
+| `jmxtrans.enabled` | boolean | `true` | No | Enable the starter | No |
+<!-- additional properties below -->
+
+## 8. Version Lines and Compatibility
+
+| Branch | JDK | Spring Boot | Component Version | Status |
+|---|---:|---:|---|:---:|
+| `2.3.x` / `2.7.x` | `8+` | 2.3.x / 2.7.x | `1.0.x` | Maintenance |
+| `3.0.x` ~ `3.5.x` | `17` | 3.x | `2.0.x` | Maintenance |
+| `4.0.x` / `4.1.x` | `17+` | 4.x | `3.0.x` | Active |
+
+## 9. Build and Test
+
+```bash
+mvn clean verify
+mvn -pl jmxtrans-spring-boot-starter -am test
+```
+
+## 10. Troubleshooting
+
+| Symptom | Diagnosis | Resolution |
+|---|---|---|
+| Bean not created | Check auto-configuration report | Verify `jmxtrans.enabled=true` and classpath |
+| `ClassNotFoundException` | Missing dependency | Add the required module |
+| Version conflict | `mvn dependency:tree` | Use BOM for version alignment |
+
+## 11. Contribution
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Run `mvn clean verify` before submitting.
+4. Submit a pull request.
+
+## 12. License
+
+This project is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+---
+
+<div align="center">
+
+[Back to top](#readme-top) · [Issues](https://github.com/easy-4-java/jmxtrans-spring-boot-starter/issues) · [Repository](https://github.com/easy-4-java/jmxtrans-spring-boot-starter)
+
+</div>

@@ -159,7 +159,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取远程主机的mac地址
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:32:00
 	 * @param remoteIPAddr
 	 * @return
@@ -184,7 +184,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取当前操作系统名称. return 操作系统名称 例如:windows,Linux,Unix等
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:32:09
 	 * @return
 	 */
@@ -195,7 +195,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取widnowXp网卡的mac地址
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:32:17
 	 * @param execStr
 	 * @return
@@ -245,7 +245,7 @@ public class MacAddressUtils {
 
 	/**
 	 * @description	： 获取widnow7网卡的mac地址
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:32:27
 	 * @return
 	 */
@@ -331,7 +331,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取Linux网卡的mac地址
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:32:36
 	 * @return
 	 */
@@ -373,7 +373,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取Unix网卡的mac地址
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:32:43
 	 * @return
 	 */
@@ -417,7 +417,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取MAC地址
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:32:50
 	 * @return
 	 */
@@ -443,7 +443,7 @@ public class MacAddressUtils {
 
 	/**
 	 * @description	： jdk1.4获取系统命令路径 ：SystemRoot=C:\WINDOWS
-	 * @author 		： <a href="https://github.com/easy-4-java">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @date 		：2017年9月12日 下午11:33:00
 	 * @return
 	 */

@@ -201,31 +201,13 @@ public class MacAddressUtils {
 	 * @return
 	 */
 	public static String getWindowXPMacAddress(String execStr) {
-		String mac = null;
 		BufferedReader reader = null;
 		Process process = null;
 		try {
 			// windows下的命令，显示信息中包含有mac地址信息
 			process = Runtime.getRuntime().exec(execStr);
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			String line = null;
-			int index = -1;
-			while ((line = reader.readLine()) != null) {
-				// 排除有虚拟网卡的情况
-				if (line.indexOf("本地连接") != -1){ 
-					continue;
-				}
-				// 寻找标示字符串[physical address]
-				index = line.toLowerCase().indexOf("physical address");
-				if (index != -1) {
-					index = line.indexOf(":");
-					if (index != -1) {
-						// 取出mac地址并去除2边空格
-						mac = line.substring(index + 1).trim();
-					}
-					break;
-				}
-			}
+			return parseWindowXPMacAddress(reader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -237,8 +219,35 @@ public class MacAddressUtils {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			reader = null;
-			process = null;
+		}
+		return null;
+	}
+
+	/**
+	 * 从 ipconfig 输出中解析 'Physical Address' 行的 mac 地址。
+	 * 抽取为独立方法以便单元测试覆盖解析逻辑。
+	 *
+	 * @author [@Loong Wan](https://github.com/loong10k)
+	 */
+	protected static String parseWindowXPMacAddress(BufferedReader reader) throws IOException {
+		String mac = null;
+		String line = null;
+		int index = -1;
+		while ((line = reader.readLine()) != null) {
+			// 排除有虚拟网卡的情况
+			if (line.indexOf("本地连接") != -1){
+				continue;
+			}
+			// 寻找标示字符串[physical address]
+			index = line.toLowerCase().indexOf("physical address");
+			if (index != -1) {
+				index = line.indexOf(":");
+				if (index != -1) {
+					// 取出mac地址并去除2边空格
+					mac = line.substring(index + 1).trim();
+				}
+				break;
+			}
 		}
 		return mac;
 	}
@@ -336,23 +345,13 @@ public class MacAddressUtils {
 	 * @return
 	 */
 	public static String getLinuxMacAddress() {
-		String mac = null;
 		BufferedReader reader = null;
 		Process process = null;
 		try {
 			// linux下的命令，一般取eth0作为本地主网卡 显示信息中包含有mac地址信息
 			process = Runtime.getRuntime().exec("ifconfig eth0");
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			String line = null;
-			int index = -1;
-			while ((line = reader.readLine()) != null) {
-				index = line.toLowerCase().indexOf("硬件地址");
-				if (index != -1) {
-					// 取出mac地址并去除2边空格
-					mac = line.substring(index + 4).trim();
-					break;
-				}
-			}
+			return parseLinuxMacAddress(reader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -364,10 +363,27 @@ public class MacAddressUtils {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			reader = null;
-			process = null;
 		}
-		return mac;
+		return null;
+	}
+
+	/**
+	 * 从 ifconfig(中文环境) 输出中解析 '硬件地址' 行的 mac 地址。
+	 * 抽取为独立方法以便单元测试覆盖解析逻辑。
+	 *
+	 * @author [@Loong Wan](https://github.com/loong10k)
+	 */
+	protected static String parseLinuxMacAddress(BufferedReader reader) throws IOException {
+		String line = null;
+		int index = -1;
+		while ((line = reader.readLine()) != null) {
+			index = line.toLowerCase().indexOf("硬件地址");
+			if (index != -1) {
+				// 取出mac地址并去除2边空格
+				return line.substring(index + 4).trim();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -378,24 +394,13 @@ public class MacAddressUtils {
 	 * @return
 	 */
 	public static String getUnixMacAddress() {
-		String mac = null;
 		BufferedReader reader = null;
 		Process process = null;
 		try {
 			// Unix下的命令，一般取eth0作为本地主网卡 显示信息中包含有mac地址信息
 			process = Runtime.getRuntime().exec("ifconfig eth0");
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			String line = null;
-			int index = -1;
-			while ((line = reader.readLine()) != null) {
-				// 寻找标示字符串[hwaddr]
-				index = line.toLowerCase().indexOf("hwaddr");
-				if (index != -1) {
-					// 取出mac地址并去除2边空格
-					mac = line.substring(index + "hwaddr".length() + 1).trim();
-					break;
-				}
-			}
+			return parseUnixMacAddress(reader);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -407,11 +412,29 @@ public class MacAddressUtils {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			reader = null;
-			process = null;
 		}
 
-		return mac;
+		return null;
+	}
+
+	/**
+	 * 从 ifconfig 输出中解析 'hwaddr' 行的 mac 地址。
+	 * 抽取为独立方法以便单元测试覆盖解析逻辑。
+	 *
+	 * @author [@Loong Wan](https://github.com/loong10k)
+	 */
+	protected static String parseUnixMacAddress(BufferedReader reader) throws IOException {
+		String line = null;
+		int index = -1;
+		while ((line = reader.readLine()) != null) {
+			// 寻找标示字符串[hwaddr]
+			index = line.toLowerCase().indexOf("hwaddr");
+			if (index != -1) {
+				// 取出mac地址并去除2边空格
+				return line.substring(index + "hwaddr".length() + 1).trim();
+			}
+		}
+		return null;
 	}
 
 	/**

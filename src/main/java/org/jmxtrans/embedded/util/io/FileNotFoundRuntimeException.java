@@ -24,7 +24,7 @@
 package org.jmxtrans.embedded.util.io;
 
 /**
- * @author <a href="mailto:cleclerc@cloudbees.com">Cyrille Le Clerc</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  */
 public class FileNotFoundRuntimeException extends IoRuntimeException {
 

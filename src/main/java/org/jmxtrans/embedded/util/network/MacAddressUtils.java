@@ -159,7 +159,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取远程主机的mac地址
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:32:00
 	 * @param remoteIPAddr
 	 * @return
@@ -184,7 +184,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取当前操作系统名称. return 操作系统名称 例如:windows,Linux,Unix等
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:32:09
 	 * @return
 	 */
@@ -195,7 +195,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取widnowXp网卡的mac地址
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:32:17
 	 * @param execStr
 	 * @return
@@ -227,7 +227,7 @@ public class MacAddressUtils {
 	 * 从 ipconfig 输出中解析 'Physical Address' 行的 mac 地址。
 	 * 抽取为独立方法以便单元测试覆盖解析逻辑。
 	 *
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 */
 	protected static String parseWindowXPMacAddress(BufferedReader reader) throws IOException {
 		String mac = null;
@@ -254,7 +254,7 @@ public class MacAddressUtils {
 
 	/**
 	 * @description	： 获取widnow7网卡的mac地址
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:32:27
 	 * @return
 	 */
@@ -340,7 +340,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取Linux网卡的mac地址
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:32:36
 	 * @return
 	 */
@@ -371,7 +371,7 @@ public class MacAddressUtils {
 	 * 从 ifconfig(中文环境) 输出中解析 '硬件地址' 行的 mac 地址。
 	 * 抽取为独立方法以便单元测试覆盖解析逻辑。
 	 *
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 */
 	protected static String parseLinuxMacAddress(BufferedReader reader) throws IOException {
 		String line = null;
@@ -389,7 +389,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取Unix网卡的mac地址
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:32:43
 	 * @return
 	 */
@@ -421,7 +421,7 @@ public class MacAddressUtils {
 	 * 从 ifconfig 输出中解析 'hwaddr' 行的 mac 地址。
 	 * 抽取为独立方法以便单元测试覆盖解析逻辑。
 	 *
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 */
 	protected static String parseUnixMacAddress(BufferedReader reader) throws IOException {
 		String line = null;
@@ -440,7 +440,7 @@ public class MacAddressUtils {
 	/**
 	 * 
 	 * @description	： 获取MAC地址
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:32:50
 	 * @return
 	 */
@@ -466,7 +466,7 @@ public class MacAddressUtils {
 
 	/**
 	 * @description	： jdk1.4获取系统命令路径 ：SystemRoot=C:\WINDOWS
-	 * @author [@Loong Wan](https://github.com/loong10k)
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
 	 * @date 		：2017年9月12日 下午11:33:00
 	 * @return
 	 */

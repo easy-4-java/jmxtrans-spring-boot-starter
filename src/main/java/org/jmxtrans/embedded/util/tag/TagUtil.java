@@ -2,7 +2,14 @@ package org.jmxtrans.embedded.util.tag;
 
 import java.util.Properties;
 
+/**
+ * <p>Utility class for Tag operations.</p>
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
+ */
 public class TagUtil {
+    /** Gets the tag val from env. */
 
     public static String getTagValFromEnv(String tagEnvName) {
 		assert tagEnvName != null;

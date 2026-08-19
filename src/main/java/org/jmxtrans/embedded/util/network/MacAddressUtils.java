@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
  * 其次，主机B接收到“UDP－NetBIOS－NS”询问包， 假设主机B正确安装了NetBIOS服务........... 而且137端口开放，
  * 则主机B会向主机A发送一个“UDP－NetBIOS－NS”应答包，即发Answer包给主机A。 并利用UDP(NetBIOS Name
  * Service)来快速获取远程主机MAC地址的方法
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
  */
 public class MacAddressUtils {
 
@@ -44,6 +46,13 @@ public class MacAddressUtils {
 	}
 
 	// 发送数据包
+	/**
+	 * <p>Send.</p>
+	 * @param remoteAddr the remote addr
+	 * @param bytes the bytes
+	 * @return the static final  datagram packet
+	 * @throws IOException if an error occurs
+	 */
 	protected static final DatagramPacket send(String remoteAddr,byte[] bytes) throws IOException {
 		DatagramPacket dp = new DatagramPacket(bytes, bytes.length, InetAddress.getByName(remoteAddr), remotePort);
 		ds.send(dp);
@@ -51,6 +60,10 @@ public class MacAddressUtils {
 	}
 
 	// 接收数据包
+	/**
+	 * <p>Receive.</p>
+	 * @return the static final  datagram packet
+	 */
 	protected static final DatagramPacket receive() {
 		DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
 		try {
@@ -76,6 +89,7 @@ public class MacAddressUtils {
 	// Name:array [1..34] 0x20 0x43 0x4B 0x41(30个) 0x00 ;
 	// Type:NBSTAT 两字节 0x00 0x21
 	// Class:INET 两字节（16位）0x00 0x01
+	/** Gets the query cmd. */
 	protected static final byte[] getQueryCmd() throws Exception {
 		byte[] t_ns = new byte[50];
 		t_ns[0] = 0x00;
@@ -122,6 +136,7 @@ public class MacAddressUtils {
 	// 12 Number of name 一个字节（8位）
 	// NetBIOS Name Info 18×Number Of Name字节
 	// Unit ID 6字节（48位
+	/** Gets the mac addr. */
 
 	protected static final String getMacAddr(byte[] brevdata) throws Exception {
 		// 获取计算机名
@@ -147,6 +162,10 @@ public class MacAddressUtils {
 		}
 		return sb.toString();
 	}
+	/**
+	 * <p>Close.</p>
+	 * @return the static final void
+	 */
 
 	public static final void close() {
 		try {
@@ -281,6 +300,7 @@ public class MacAddressUtils {
 		// 把字符串所有小写字母改为大写成为正规的mac地址并返回
 		return sb.toString().toUpperCase();
 	}
+	/** Gets the host mac address. */
 
 	public static String getHostMacAddress(String host) {
 		
@@ -309,6 +329,7 @@ public class MacAddressUtils {
 		// 把字符串所有小写字母改为大写成为正规的mac地址并返回
 		return sb.toString().toUpperCase();
 	}
+	/** Gets the all mac addresses. */
 
 	public static List<String> getAllMacAddresses() {
 		List<String> addresses = new ArrayList<String>();

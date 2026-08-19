@@ -34,6 +34,7 @@ import org.jmxtrans.embedded.util.StringUtils2;
 
 /**
  * @author Kristoffer Erlandsson
+ * @since 1.0.0
  */
 public class InfluxMetric {
 
@@ -60,22 +61,30 @@ public class InfluxMetric {
         this.value = Objects.requireNonNull(value);
         this.timestampMillis = timestampMillis;
     }
+    /** Gets the timestamp millis. */
 
     public long getTimestampMillis() {
         return timestampMillis;
     }
+    /** Gets the tags. */
 
     public List<InfluxTag> getTags() {
         return tags;
     }
+    /** Gets the measurement. */
 
     public String getMeasurement() {
         return measurement;
     }
+    /** Gets the value. */
 
     public Object getValue() {
         return valueAsStr();
     }
+    /**
+     * <p>To influx format.</p>
+     * @return the string
+     */
 
     public String toInfluxFormat() {
         StringBuilder sb = new StringBuilder();
@@ -92,6 +101,10 @@ public class InfluxMetric {
                 .append(timestampMillis);
         return sb.toString();
     }
+    /**
+     * <p>Value as str.</p>
+     * @return the string
+     */
 
     private String valueAsStr() {
         if (value instanceof Integer || value instanceof Long) {
@@ -104,6 +117,10 @@ public class InfluxMetric {
         }
         return value.toString();
     }
+    /**
+     * <p>Convert tags to strings.</p>
+     * @return the list< string>
+     */
 
     private List<String> convertTagsToStrings() {
         List<String> l = new ArrayList<String>(tags.size());
@@ -112,11 +129,20 @@ public class InfluxMetric {
         }
         return l;
     }
+    /**
+     * <p>Hash code.</p>
+     * @return the int
+     */
 
     @Override
     public int hashCode() {
         return Objects.hash(timestampMillis, tags, measurement, valueAsStr());
     }
+    /**
+     * <p>Equals.</p>
+     * @param obj the obj
+     * @return the boolean
+     */
 
     @Override
     public boolean equals(Object obj) {
@@ -132,6 +158,10 @@ public class InfluxMetric {
                 && Objects.equals(measurement, other.measurement)
                 && Objects.equals(valueAsStr(), other.valueAsStr());
     }
+    /**
+     * <p>To string.</p>
+     * @return the string
+     */
 
     @Override
     public String toString() {

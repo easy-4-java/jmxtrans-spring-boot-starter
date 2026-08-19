@@ -7,19 +7,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-/**
- * 高并发场景下System.currentTimeMillis()的性能问题的优化
- * <p><p>
- * System.currentTimeMillis()的调用比new一个普通对象要耗时的多（具体耗时高出多少我还没测试过，有人说是100倍左右）<p>
- * System.currentTimeMillis()之所以慢是因为去跟系统打了一次交道<p>
- * 后台定时更新时钟，JVM退出时，线程自动回收<p>
- * 10亿：43410,206,210.72815533980582%<p>
- * 1亿：4699,29,162.0344827586207%<p>
- * 1000万：480,12,40.0%<p>
- * 100万：50,10,5.0%<p>
- * @author lry
- * @see http://git.oschina.net/yu120/sequence
- */
 public class SystemClock {
 
     private final long period;
@@ -31,16 +18,34 @@ public class SystemClock {
         scheduleClockUpdating();
     }
 
+    /**
+     * <p>Instance Holder.</p>
+     *
+     * @author <a href="https://github.com/loong10k">Loong Wan</a>
+     * @since 1.0.0
+     */
     private static class InstanceHolder {
         public static final SystemClock INSTANCE = new SystemClock(1);
     }
+    /**
+     * <p>Instance.</p>
+     * @return the static  system clock
+     */
 
     private static SystemClock instance() {
         return InstanceHolder.INSTANCE;
     }
+    /**
+     * <p>Schedule clock updating.</p>
+     */
 
     private void scheduleClockUpdating() {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
+            /**
+             * <p>New thread.</p>
+             * @param runnable the runnable
+             * @return the thread
+             */
             public Thread newThread(Runnable runnable) {
                 Thread thread = new Thread(runnable, "System Clock");
                 thread.setDaemon(true);
@@ -48,19 +53,34 @@ public class SystemClock {
             }
         });
         scheduler.scheduleAtFixedRate(new Runnable() {
+            /**
+             * <p>Run.</p>
+             */
             public void run() {
                 now.set(System.currentTimeMillis());
             }
         }, period, period, TimeUnit.MILLISECONDS);
     }
+    /**
+     * <p>Current time millis.</p>
+     * @return the long
+     */
 
     private long currentTimeMillis() {
         return now.get();
     }
+    /**
+     * <p>Now.</p>
+     * @return the static long
+     */
 
     public static long now() {
         return instance().currentTimeMillis();
     }
+	/**
+	 * <p>Now date.</p>
+	 * @return the static  string
+	 */
     
 	public static String nowDate() {
 		return new Timestamp(instance().currentTimeMillis()).toString();

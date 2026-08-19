@@ -27,6 +27,7 @@ import java.util.Objects;
 
 /**
  * @author Kristoffer Erlandsson
+ * @since 1.0.0
  */
 public class InfluxTag {
     private final String name;
@@ -36,28 +37,47 @@ public class InfluxTag {
         this.name = Objects.requireNonNull(name);
         this.value = Objects.requireNonNull(value);
     }
+    /** Gets the name. */
 
     public String getName() {
         return name;
     }
+    /** Gets the value. */
 
     public String getValue() {
         return value;
     }
+    /**
+     * <p>To influx format.</p>
+     * @return the string
+     */
 
     public String toInfluxFormat() {
         return name + "=" + value;
     }
+    /**
+     * <p>To string.</p>
+     * @return the string
+     */
 
     @Override
     public String toString() {
         return name + "=" + value;
     }
+    /**
+     * <p>Hash code.</p>
+     * @return the int
+     */
 
     @Override
     public int hashCode() {
         return Objects.hash(name, value);
     }
+    /**
+     * <p>Equals.</p>
+     * @param obj the obj
+     * @return the boolean
+     */
 
     @Override
     public boolean equals(Object obj) {

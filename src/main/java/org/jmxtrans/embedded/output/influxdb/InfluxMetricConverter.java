@@ -29,9 +29,6 @@ import java.util.List;
 import org.jmxtrans.embedded.ResultNameStrategy;
 import org.jmxtrans.embedded.util.tag.TagUtil;
 
-/**
- * @author Kristoffer Erlandsson
- */
 public class InfluxMetricConverter {
 
     public static InfluxMetric convertToInfluxMetric(ResultNameStrategy strategy,String metricName, Object value, List<InfluxTag> additionalTags, long timestamp) {
@@ -85,6 +82,12 @@ public class InfluxMetricConverter {
     }
 
     @SuppressWarnings("serial")
+    /**
+     * <p>Failed To Convert To Influx Metric Exception.</p>
+     *
+     * @author <a href="https://github.com/loong10k">Loong Wan</a>
+     * @since 1.0.0
+     */
     public static class FailedToConvertToInfluxMetricException extends RuntimeException {
 
         public FailedToConvertToInfluxMetricException(String msg) {

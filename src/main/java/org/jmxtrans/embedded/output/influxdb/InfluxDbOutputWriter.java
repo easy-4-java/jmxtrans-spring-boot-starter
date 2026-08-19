@@ -53,6 +53,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Output writer for InfluxDb.
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
  */
 public class InfluxDbOutputWriter extends AbstractOutputWriter implements OutputWriter {
 
@@ -122,10 +124,16 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
 	                + ", readTimeoutMillis=" + readTimeoutMillis);
         }
     }
+    /** Gets the write endpoint for url str. */
 
     private String getWriteEndpointForUrlStr(String urlStr) {
         return urlStr + (urlStr.endsWith("/") ? "write" : "/write");
     }
+    /**
+     * <p>Parse url str.</p>
+     * @param urlStr the url str
+     * @return the u r l
+     */
 
     private URL parseUrlStr(String urlStr) {
         try {
@@ -134,6 +142,10 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
             throw new RuntimeException(e);
         }
     }
+    /**
+     * <p>Build query string.</p>
+     * @return the string
+     */
 
     private String buildQueryString() {
         StringBuilder sb = new StringBuilder();
@@ -143,6 +155,10 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
         appendParamIfNotEmptyOrNull(sb, "rp", retentionPolicy);
         return sb.toString();
     }
+	/**
+	 * <p>Write.</p>
+	 * @param results the results
+	 */
     
 	@Override
 	public void write(Iterable<QueryResult> results) {
@@ -184,6 +200,12 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
 			}
 		}
 	}
+    /**
+     * <p>Send metrics.</p>
+     * @param queryString the query string
+     * @param body the body
+     * @throws IOException if an error occurs
+     */
 
     private void sendMetrics(String queryString, String body) throws IOException {
         HttpURLConnection conn = createAndConfigureConnection();
@@ -193,6 +215,12 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
             IoUtils.closeQuietly(conn);
         }
     }
+    /**
+     * <p>Send metrics.</p>
+     * @param body the body
+     * @param urlConnection the url connection
+     * @throws IOException if an error occurs
+     */
 
     private void sendMetrics(String body, HttpURLConnection urlConnection) throws IOException {
         writeMetrics(urlConnection, body);
@@ -206,6 +234,11 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
         	LOG.debug("Response from influx: " + response);
         }
     }
+    /**
+     * <p>Create and configure connection.</p>
+     * @return the http u r l connection
+     * @throws ProtocolException if an error occurs
+     */
 
     private HttpURLConnection createAndConfigureConnection() throws ProtocolException {
         HttpURLConnection conn = openHttpConnection();
@@ -215,6 +248,10 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
         conn.setRequestMethod("POST");
         return conn;
     }
+    /**
+     * <p>Open http connection.</p>
+     * @return the http u r l connection
+     */
     
     private HttpURLConnection openHttpConnection() {
         try {
@@ -229,6 +266,11 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
             throw new IoRuntimeException("Failed to create HttpURLConnection to " + url + " - is it a valid HTTP url?",  e);
         }
     }
+    /**
+     * <p>Write metrics.</p>
+     * @param conn the conn
+     * @param body the body
+     */
 
     private void writeMetrics(HttpURLConnection conn, String body)
             throws UnsupportedEncodingException, IOException {
@@ -245,6 +287,13 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
 			}
 		}
     }
+    /**
+     * <p>Read response.</p>
+     * @param conn the conn
+     * @return the string
+     * @throws IOException if an error occurs
+     * @throws UnsupportedEncodingException if an error occurs
+     */
 
     private String readResponse(HttpURLConnection conn) throws IOException, UnsupportedEncodingException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -260,6 +309,12 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
         String response = new String(baos.toByteArray(), "UTF-8");
         return response;
     }
+    /**
+     * <p>Append param if not empty or null.</p>
+     * @param sb the sb
+     * @param paramName the param name
+     * @param paramValue the param value
+     */
 
     private void appendParamIfNotEmptyOrNull(StringBuilder sb, String paramName, String paramValue) {
         if (paramValue != null && !paramValue.trim().isEmpty()) {
@@ -269,6 +324,11 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
         }
 
     }
+    /**
+     * <p>Convert metrics to lines.</p>
+     * @param metrics the metrics
+     * @return the string
+     */
 
     private String convertMetricsToLines(List<InfluxMetric> metrics) {
         StringBuilder sb = new StringBuilder();
@@ -281,18 +341,22 @@ public class InfluxDbOutputWriter extends AbstractOutputWriter implements Output
         }
         return sb.toString();
     }
+	/** Gets the url. */
  
 	public String getUrl(String url) {
 		return url== null ? "http://127.0.0.1:8086" : url;
 	}
+	/** Gets the database. */
 
 	public String getDatabase(String database) {
 		return database== null ? "Metrics_127.0.0.1" : database;
 	}
+	/** Gets the user. */
 
 	public String getUser(String user) {
 		return user;
 	}
+	/** Gets the password. */
 
 	public String getPassword(String password) {
 		return password;

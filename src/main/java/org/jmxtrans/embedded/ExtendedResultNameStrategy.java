@@ -6,6 +6,12 @@ import java.util.concurrent.Callable;
 import org.jmxtrans.embedded.util.network.MacAddressUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+/**
+ * <p>Extended Result Name Strategy.</p>
+ *
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
+ */
 public class ExtendedResultNameStrategy extends ResultNameStrategy {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());

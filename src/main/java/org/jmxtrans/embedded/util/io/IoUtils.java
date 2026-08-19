@@ -33,10 +33,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
  */
 public class IoUtils {
 	
     protected final static Logger logger = LoggerFactory.getLogger(IoUtils.class.getName());
+    /**
+     * <p>Close quietly.</p>
+     * @param cnn the cnn
+     * @return the static void
+     */
 
     public static void closeQuietly (URLConnection cnn) {
         if (cnn == null) {
@@ -47,6 +54,11 @@ public class IoUtils {
             // do nothing
         }
     }
+    /**
+     * <p>Close quietly.</p>
+     * @param closeable the closeable
+     * @return the static void
+     */
     
     public static void closeQuietly(Closeable closeable) {
         if (closeable == null)
@@ -57,6 +69,11 @@ public class IoUtils {
             // ignore silently
         }
     }
+    /**
+     * <p>Close quietly.</p>
+     * @param writer the writer
+     * @return the static void
+     */
 
     public static void closeQuietly(Writer writer) {
         if (writer == null)
